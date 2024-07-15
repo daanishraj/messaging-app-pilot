@@ -34,7 +34,7 @@ const sendMessage = () => {
       }).catch((error) => console.error('Error sending message:', error));
   };
 
-  cron.schedule('30 */1 * * *', () => {
+  cron.schedule('30 */12 * * *', () => {
     console.log('executing cron job')
   // cron.schedule('*/10 * * * *', () => {
     sendMessage();
