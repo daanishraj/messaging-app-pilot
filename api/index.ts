@@ -1,4 +1,3 @@
-// src/index.ts
 import express, { Request, Response } from 'express';
 import twilio from 'twilio';
 import cron from 'node-cron';
@@ -9,6 +8,7 @@ const port = process.env.PORT || 3000;
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID!;
 const authToken = process.env.TWILIO_AUTH_TOKEN!;
+// const twilioWhatsappNumber = process.env.TWILIO_WHATSAPP_NUMBER
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER!;
 const destinationPhoneNumber = process.env.DESTINATION_PHONE_NUMBER!;
 
@@ -20,8 +20,19 @@ console.log({ client })
 
 const sendMessage = () => {
     const message = "For God and Guru";
+
+    console.log(`message: ${message}`)
+
     
-    client.messages
+    // when using whatsapp
+    // client.messages
+    //   .create({
+    //     body: message,
+    //     from: `whatsapp:${twilioWhatsappNumber}`,
+    //     to: `whatsapp:${destinationPhoneNumber}`,
+    //   }
+    // )
+      client.messages
       .create({
         body: message,
         from: twilioPhoneNumber,
@@ -34,7 +45,7 @@ const sendMessage = () => {
       }).catch((error) => console.error('Error sending message:', error));
   };
 
-  cron.schedule('30 */12 * * *', () => {
+  cron.schedule('30 */1 * * *', () => {
     console.log('executing cron job')
   // cron.schedule('*/10 * * * *', () => {
     sendMessage();
