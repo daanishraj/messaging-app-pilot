@@ -18,32 +18,56 @@ const client = twilio(accountSid, authToken);
 
 console.log({ client })
 
-const sendMessage = () => {
-    const message = "For God and Guru";
+// const sendMessage = () => {
+//     const message = "For God and Guru";
 
-    console.log(`message: ${message}`)
+//     console.log(`message: ${message}`)
+//     console.log({ client })
+
 
     
-    // when using whatsapp
-    // client.messages
-    //   .create({
-    //     body: message,
-    //     from: `whatsapp:${twilioWhatsappNumber}`,
-    //     to: `whatsapp:${destinationPhoneNumber}`,
-    //   }
-    // )
-      client.messages
-      .create({
-        body: message,
-        from: twilioPhoneNumber,
-        to: destinationPhoneNumber,
-      })
-      .then((message) => {
-        const now = new Date();
-        const formattedDate = now.toLocaleString()
-        console.log(`Message sent: ${message.sid} at ${ now }`)
-      }).catch((error) => console.error('Error sending message:', error));
-  };
+//     // when using whatsapp
+//     // client.messages
+//     //   .create({
+//     //     body: message,
+//     //     from: `whatsapp:${twilioWhatsappNumber}`,
+//     //     to: `whatsapp:${destinationPhoneNumber}`,
+//     //   }
+//     // )
+//       client.messages
+//       .create({
+//         body: message,
+//         from: twilioPhoneNumber,
+//         to: destinationPhoneNumber,
+//       })
+//       .then((message) => {
+//         const now = new Date();
+//         const formattedDate = now.toLocaleString()
+//         console.log(`Message sent: ${message.sid} at ${ now }`)
+//       }).catch((error) => console.error('Error sending message:', error));
+//   };
+
+const sendMessage = async () => {
+  const message = "For God and Guru";
+
+  console.log(`message: ${message}`);
+  console.log({ client });
+
+  try {
+      const response = await client.messages.create({
+          body: message,
+          from: twilioPhoneNumber,
+          to: destinationPhoneNumber,
+      });
+
+      const now = new Date();
+      const formattedDate = now.toLocaleString();
+      console.log(`Message sent: ${response.sid} at ${formattedDate}`);
+      console.log('Response:', response);
+  } catch (error) {
+      console.error('Error sending message:', error);
+  }
+};
 
   cron.schedule('30 */1 * * *', () => {
     console.log('executing cron job')
